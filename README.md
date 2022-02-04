@@ -25,3 +25,23 @@ ClassLoader org.springframework.boot.devtools.restart.classloader.RestartClassLo
 ```
 
 and will try to expose the reload service, etc.
+
+## Failure scenarios
+
+### Missing jib-spring-boot-extension-gradle dependency
+
+```
+* What went wrong:
+Execution failed for task ':jibDockerBuild'.
+> error running extension 'com.google.cloud.tools.jib.plugins.extension.NullExtension': extension configured but not discovered on Jib runtime classpath: com.google.cloud.tools.jib.gradle.extension.springboot.JibSpringBootExtension
+```
+
+Add this at the **very top** of `build.gradle` before `plugins { ... }`
+
+```
+buildscript {
+    dependencies {
+        classpath('com.google.cloud.tools:jib-spring-boot-extension-gradle:0.1.0')
+    }
+ }
+```
